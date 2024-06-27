@@ -1,1 +1,1 @@
-export const API_ENDPOINT =  '/products';
+export const API_SHOW_PRODUCT =  '/api/products';
