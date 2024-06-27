@@ -1,19 +1,37 @@
 <template>
-    <div class="sidebar">
-        <h2 class="sidebar-title">Menu</h2>
-        <ul class="sidebar-list">
-            <li class="sidebar-item"><a href="#">Dashboard</a></li>
-            <li class="sidebar-item"><a href="/admin/products">Proucts</a></li>
-            <li class="sidebar-item"><a href="#">Item 3</a></li>
-            <li class="sidebar-item"><a href="#">item 4</a></li>
-        </ul>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Example Component</div>
+
+                    <div class="card-body">
+                        prod
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
-<script>
-export default {
-    name: 'ProductComponent',
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+// import { api_endpoint } from './config.js';
+
+const products = ref([]);
+
+const fetchProducts = async () => {
+  try {
+    const response = await axios.get('/api/products');
+    products.value = response.data;
+    console.log(products.value);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
 };
+
+onMounted(fetchProducts);
 </script>
 
 <style scoped>

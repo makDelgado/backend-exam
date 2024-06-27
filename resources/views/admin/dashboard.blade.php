@@ -4,7 +4,7 @@
     
 
 <div class="container">
-<div id="app">
+    <div id="app">
         <side-bar-component></side-bar-component>
     </div>
     <div class="row justify-content-center">

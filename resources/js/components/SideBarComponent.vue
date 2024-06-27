@@ -2,7 +2,7 @@
     <div class="sidebar">
         <h2 class="sidebar-title">Menu</h2>
         <ul class="sidebar-list">
-            <li class="sidebar-item"><a href="#">Dashboard</a></li>
+            <li class="sidebar-item"><a href="/admin/dashboard">Dashboard</a></li>
             <li class="sidebar-item"><a href="/admin/products">Proucts</a></li>
             <li class="sidebar-item"><a href="#">Item 3</a></li>
             <li class="sidebar-item"><a href="#">item 4</a></li>

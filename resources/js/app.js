@@ -16,10 +16,12 @@ import { createApp } from 'vue';
 const app = createApp({});
 
 import ExampleComponent from './components/ExampleComponent.vue';
-import SideBarComponent from './components/SideBarComponent.vue'
+import SideBarComponent from './components/SideBarComponent.vue';
+import ProductComponent from './components/ProductComponent.vue';
 
 app.component('example-component', ExampleComponent);
 app.component('side-bar-component', SideBarComponent);
+app.component('product-component', ProductComponent);
 
 /**
  * The following block of code may be used to automatically register your
