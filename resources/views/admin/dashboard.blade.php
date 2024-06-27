@@ -1,7 +1,12 @@
-<!-- @extends('layouts.app')
+@extends('../layouts.app')
 
 @section('content')
+    
+
 <div class="container">
+<div id="app">
+        <side-bar-component></side-bar-component>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -14,13 +19,8 @@
                         </div>
                     @endif
                     hir
-        <div id="app">
-        <side-bar-component></side-bar-component>
-        </div>
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
+                
         </div>
     </div>
 </div>
-@endsection -->
+@endsection
