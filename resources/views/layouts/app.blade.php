@@ -66,14 +66,7 @@
             </div>
         </nav>
         <main>
-            <div class="row" style="width:100%">
-                <div class="col-md-3" style="background-color:yellow">
-                    <side-bar-component></side-bar-component>
-                </div>
-                <div class="col-md-8" style="background-color:green">
-                    @yield('content')
-                </div>
-            </div>
+            @yield('content')
         </main>
     </div>
 </body>

@@ -15,17 +15,11 @@ import { createApp } from 'vue';
 
 const app = createApp({});
 
-import ExampleComponent from './components/ExampleComponent.vue';
 import SideBarComponent from './components/SideBarComponent.vue';
 import ProductComponent from './components/product/ProductComponent.vue';
-import EditProductComponent from './components/product/EditProduct.vue';
-import AddProductComponent from './components/product/AddProduct.vue';
 
-app.component('example-component', ExampleComponent);
 app.component('side-bar-component', SideBarComponent);
 app.component('product-component', ProductComponent);
-app.component('add-product-component', AddProductComponent);
-app.component('edit-product-component', EditProductComponent);
 
 /**
  * The following block of code may be used to automatically register your

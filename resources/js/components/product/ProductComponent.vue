@@ -2,10 +2,27 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="product-title">
-                <h3>Product </h3>
-            <a href="/admin/product/add" class="btn btn-primary">Add</a>  
-            </div>     
-            <div  v-if="loading" role="status" class="spinner-border"></div>
+                <h3>Product</h3>
+                <button class="btn btn-primary" @click="showAddModal = true">Add</button>
+            </div>
+            <div class="alert alert-success d-flex justify-content-between align-items-center" role="alert" v-if="showAlert">
+            Product added successfully!
+                <button type="button" class="close btn btn-sm btn-danger" @click="dismissAlert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="search-bar">
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search by name or description"
+                    v-model="searchQuery"
+                />
+            </div>
+            <div v-if="loading" role="status" class="spinner-border"></div>
             <table v-else class="table table-hover table-bordered">
                 <thead>
                     <tr>
@@ -16,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="product in paginatedProducts" :key="product.id">
+                    <tr v-for="product in paginatedFilteredProducts" :key="product.id">
                         <td>{{ product.name }}</td>
                         <td>{{ product.category }}</td>
                         <td>{{ product.description }}</td>
@@ -29,7 +46,6 @@
                     </tr>
                 </tbody>
             </table>
-
             <nav aria-label="Pagination">
                 <ul class="pagination justify-content-center">
                     <li class="page-item" :class="{ disabled: currentPage === 1 }">
@@ -44,6 +60,10 @@
                 </ul>
             </nav>
         </div>
+
+        <!-- Add Product Modal -->
+        <Add :showAddModal="showAddModal"
+                @close="showAddModal = false" />
     </div>
 </template>
 
@@ -51,11 +71,16 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { API_SHOW_PRODUCT } from '../../config.js';
+import Add from './Add.vue';
 
 const products = ref([]);
 const currentPage = ref(1);
-const pageSize = 5; // Number of items per page
+const pageSize = 5;
 const loading = ref(true);
+const searchQuery = ref('');
+const showAddModal = ref(false);
+const showAlert = ref(false);
+const timeDelay = 3000;
 
 const fetchProducts = async () => {
     try {
@@ -70,12 +95,22 @@ const fetchProducts = async () => {
 
 onMounted(fetchProducts);
 
-const paginatedProducts = computed(() => {
-    const start = (currentPage.value - 1) * pageSize;
-    return products.value.slice(start, start + pageSize);
+const filteredProducts = computed(() => {
+    if (!searchQuery.value) {
+        return products.value;
+    }
+    return products.value.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
 });
 
-const totalPages = computed(() => Math.ceil(products.value.length / pageSize));
+const paginatedFilteredProducts = computed(() => {
+    const start = (currentPage.value - 1) * pageSize;
+    return filteredProducts.value.slice(start, start + pageSize);
+});
+
+const totalPages = computed(() => Math.ceil(filteredProducts.value.length / pageSize));
 
 const nextPage = () => {
     if (currentPage.value < totalPages.value) {
@@ -94,13 +129,38 @@ const gotoPage = (page) => {
 };
 
 const editProduct = (product) => {
-    
+    // Handle edit product logic
 };
+
+const deleteProduct = (product) => {
+    // Handle delete product logic
+};
+
+window.addEventListener('product-added', (event) => {
+    products.value.push(event.detail.product);
+    showAlertNotification(); 
+});
+
+const showAlertNotification = () => {
+    showAlert.value = true;
+    setTimeout(() => {
+        showAlert.value = false;
+    }, timeDelay);
+};
+
+const dismissAlert = () => {
+    showAlert.value = false;
+};
+
 </script>
 
 <style scoped>
 .product-title {
     padding: 12px 0;
+}
+
+.search-bar {
+    margin: 10px 0;
 }
 
 table {

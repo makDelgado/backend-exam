@@ -16,12 +16,18 @@ class ProductController extends Controller
     {
         return Product::all();
     }
-    public function addProduct()
+    public function addProducts(Request $request)
     {
-        return view("admin.product.add_product");
-    }
-    public function editProduct()
-    {
-        return view("admin.product.edit_product");
+
+        $product = new Product();
+        $product->name = $request['name'];
+        $product->category = $request['category'];
+        $product->description = $request['description'];
+        $product->save();
+
+        return response()->json([
+            'success' => true,
+            'product' => $product,
+        ]);
     }
 }

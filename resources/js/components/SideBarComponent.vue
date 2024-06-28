@@ -2,11 +2,10 @@
     <div class="sidebar">
         <h2 class="sidebar-title">Menu</h2>
         <div class="sidebar-grid">
-            <a href="/admin/dashboard" class="sidebar-item">Dashboard</a>
-            <a href="/admin/product" class="sidebar-item">Products List</a>
-            <a href="/admin/product/add" class="sidebar-item">Add Product</a>
+            <a href="/admin/product" class="sidebar-item">Products</a>
             <a href="#" class="sidebar-item">Item 1</a>
             <a href="#" class="sidebar-item">Item 2</a>
+            <a href="#" class="sidebar-item">Item 3</a>
         </div>
     </div>
 </template>
