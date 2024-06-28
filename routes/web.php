@@ -22,7 +22,4 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/admin/product', [HomeController::class, 'index'])->name('admin');
 Route::get('/admin/product', [ProductController::class, 'index'])->middleware('auth');
-Route::get('/admin/product/add', [ProductController::class, 'addProduct'])->middleware('auth');
-Route::get('/admin/product/edit', [ProductController::class, 'editProduct'])->middleware('auth');

@@ -6,13 +6,11 @@
                 <button class="btn btn-primary" @click="showAddModal = true">Add</button>
             </div>
             <div class="alert alert-success d-flex justify-content-between align-items-center" role="alert" v-if="showAlert">
-            Product added successfully!
+                <div> {{ messageNotif }} </div>
                 <button type="button" class="close btn btn-sm btn-danger" @click="dismissAlert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
-
 
             <div class="search-bar">
                 <input
@@ -71,7 +69,9 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { API_SHOW_PRODUCT } from '../../config.js';
+import { API_DELETE_PRODUCT } from '../../config.js';
 import Add from './Add.vue';
+import Swal from 'sweetalert2';
 
 const products = ref([]);
 const currentPage = ref(1);
@@ -81,6 +81,7 @@ const searchQuery = ref('');
 const showAddModal = ref(false);
 const showAlert = ref(false);
 const timeDelay = 3000;
+const messageNotif = ref("asd");
 
 const fetchProducts = async () => {
     try {
@@ -132,12 +133,43 @@ const editProduct = (product) => {
     // Handle edit product logic
 };
 
-const deleteProduct = (product) => {
-    // Handle delete product logic
+const deleteProduct = async (product) => {
+    Swal.fire({
+        icon: 'warning',
+        title: "Do you want delete this product",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+    }).then(async (result) => { // Make the callback function async
+
+        if (result.isConfirmed) {
+
+            try {
+                console.log(product);
+                const response = await axios.get(`${API_DELETE_PRODUCT}/${product.id}`); // Use axios.delete for DELETE requests
+                if (response.status === 200) {
+                    products.value = products.value.filter(p => p.id !== product.id);
+                    messageNotif.value = "Product deleted successfully!";
+                    showAlertNotification();
+                } else {
+                    console.error('Failed to delete product:', response);
+                    messageNotif.value = "Failed to delete product. Please try again later.";
+                    showAlertNotification();
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                messageNotif.value = "Failed to delete product. Please try again later.";
+                showAlertNotification();
+            }
+
+        }
+    });
+
 };
+
 
 window.addEventListener('product-added', (event) => {
     products.value.push(event.detail.product);
+    messageNotif.value = "Product Saved Successfully";
     showAlertNotification(); 
 });
 

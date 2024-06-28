@@ -14,7 +14,6 @@
 .sidebar {
     width: 100%;
     height: 100%;
-    background-color: #2e2d2c;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -23,7 +22,7 @@
 .sidebar-title {
     font-size: 1.5rem;
     margin-bottom: 10px;
-    color: #fff0f0;
+    color: #222121;
 }
 
 

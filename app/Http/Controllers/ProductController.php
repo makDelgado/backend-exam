@@ -16,7 +16,7 @@ class ProductController extends Controller
     {
         return Product::all();
     }
-    public function addProducts(Request $request)
+    public function addProduct(Request $request)
     {
 
         $product = new Product();
@@ -29,5 +29,23 @@ class ProductController extends Controller
             'success' => true,
             'product' => $product,
         ]);
+    }
+
+    public function deleteProduct($id)
+    {
+        try {
+
+            $product = Product::findOrFail($id);
+            $product->delete();
+            return response()->json(['message' => 'Product deleted successfully']);
+
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'error' => 'Failed to delete product',
+                    'message' => $e->getMessage()
+                ],
+            500);
+        }
     }
 }

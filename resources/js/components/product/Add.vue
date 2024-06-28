@@ -63,6 +63,7 @@ const closeAddModal = () => {
 };
 
 const addProduct = async () => {
+    
     try {
 
         console.log(newProduct.value);
@@ -70,7 +71,7 @@ const addProduct = async () => {
         console.log(response);
         closeAddModal();
 
-        const addedProduct = response.data; // Assuming the response contains the added product details
+        const addedProduct = response.data;
         window.dispatchEvent(new CustomEvent('product-added', { detail: addedProduct }));
 
         
