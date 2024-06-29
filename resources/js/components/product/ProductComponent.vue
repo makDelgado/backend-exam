@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="product-title">
                 <h3>Product</h3>
-                <button class="btn btn-primary" @click="showAddModal = true">Add</button>
+                <button class="btn btn-primary" @click="showAddModal = true">Create</button>
             </div>
             <div class="alert alert-success d-flex justify-content-between align-items-center" role="alert" v-if="showAlert">
                 <div> {{ messageNotif }} </div>
@@ -59,18 +59,27 @@
             </nav>
         </div>
 
-        <!-- Add Product Modal -->
-        <Add :showAddModal="showAddModal"
-                @close="showAddModal = false" />
+        <Add
+            :showAddModal="showAddModal" 
+            @close="showAddModal = false"
+        />
+
+        <Edit
+            :showEditModal="showEditModal"
+            @close="showEditModal = false"
+            :editProduct="currentProduct"
+            @product-updated="handleProductUpdated"
+        />
+
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
-import { API_SHOW_PRODUCT } from '../../config.js';
-import { API_DELETE_PRODUCT } from '../../config.js';
+import { API_SHOW_PRODUCT, API_DELETE_PRODUCT } from '../../config.js';
 import Add from './Add.vue';
+import Edit from './Edit.vue';
 import Swal from 'sweetalert2';
 
 const products = ref([]);
@@ -79,9 +88,11 @@ const pageSize = 5;
 const loading = ref(true);
 const searchQuery = ref('');
 const showAddModal = ref(false);
+const showEditModal = ref(false);
 const showAlert = ref(false);
 const timeDelay = 3000;
-const messageNotif = ref("asd");
+const messageNotif = ref("");
+const currentProduct = ref({});
 
 const fetchProducts = async () => {
     try {
@@ -130,7 +141,17 @@ const gotoPage = (page) => {
 };
 
 const editProduct = (product) => {
-    // Handle edit product logic
+    currentProduct.value = product;
+    showEditModal.value = true;
+};
+
+const handleProductUpdated = (updatedProduct) => {
+    const index = products.value.findIndex(p => p.id === updatedProduct.id);
+    if (index !== -1) {
+        products.value.splice(index, 1, updatedProduct);
+    }
+    messageNotif.value = "Product Updated Successfully";
+    showAlertNotification(); 
 };
 
 const deleteProduct = async (product) => {
@@ -139,13 +160,11 @@ const deleteProduct = async (product) => {
         title: "Do you want delete this product",
         showCancelButton: true,
         confirmButtonText: "Yes",
-    }).then(async (result) => { // Make the callback function async
-
+    }).then(async (result) => {
         if (result.isConfirmed) {
-
             try {
                 console.log(product);
-                const response = await axios.get(`${API_DELETE_PRODUCT}/${product.id}`); // Use axios.delete for DELETE requests
+                const response = await axios.get(`${API_DELETE_PRODUCT}/${product.id}`);
                 if (response.status === 200) {
                     products.value = products.value.filter(p => p.id !== product.id);
                     messageNotif.value = "Product deleted successfully!";
@@ -160,12 +179,9 @@ const deleteProduct = async (product) => {
                 messageNotif.value = "Failed to delete product. Please try again later.";
                 showAlertNotification();
             }
-
         }
     });
-
 };
-
 
 window.addEventListener('product-added', (event) => {
     products.value.push(event.detail.product);
@@ -183,7 +199,6 @@ const showAlertNotification = () => {
 const dismissAlert = () => {
     showAlert.value = false;
 };
-
 </script>
 
 <style scoped>

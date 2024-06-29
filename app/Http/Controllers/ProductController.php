@@ -48,4 +48,31 @@ class ProductController extends Controller
             500);
         }
     }
+
+    public function updateProduct(Request $request, $id)
+    {
+        try {
+
+            $product = Product::find($id);
+            if (!$product) {
+                return response()->json(['error' => 'Product not found'], 404);
+            }
+    
+            $product->name = $request->input('name');
+            $product->category = $request->input('category');
+            $product->description = $request->input('description');
+            $product->update();
+    
+            return response()->json($product, 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json(
+                [
+                    'error' => 'Failed to delete product',
+                    'message' => $e->getMessage()
+                ],
+            500);
+        }
+    }
 }
