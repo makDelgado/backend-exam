@@ -61,33 +61,29 @@ const closeEditModal = () => {
 };
 
 const updateProduct = async () => {
+
     try {
+
         const response = await axios.put(`${API_EDIT_PRODUCT}/${product.value.id}`, product.value);
         closeEditModal();
         emit('product-updated', response.data);
+
     } catch (error) {
-        if (error.response && error.response.status === 422) {
+
+        if (
+            error.response &&
+            error.response.status === 42
+        ) {
             errors.value = error.response.data.errors;
         } else {
             console.error('Error updating product:', error);
         }
+
     }
+
 };
 
 </script>
 
-<style scoped>
-.modal {
-    display: block;
-    background: rgba(0, 0, 0, 0.5);
-    align-items: center;
-    justify-content: center;
-    padding-top: 10vh;
-}
+<style src="./style.css"></style>
 
-.modal-dialog {
-    position: relative;
-    margin: auto;
-    transform: none;
-}
-</style>

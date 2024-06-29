@@ -155,16 +155,21 @@ const handleProductUpdated = (updatedProduct) => {
 };
 
 const deleteProduct = async (product) => {
+
     Swal.fire({
         icon: 'warning',
         title: "Do you want delete this product",
         showCancelButton: true,
         confirmButtonText: "Yes",
     }).then(async (result) => {
+
         if (result.isConfirmed) {
+
             try {
+
                 console.log(product);
                 const response = await axios.get(`${API_DELETE_PRODUCT}/${product.id}`);
+
                 if (response.status === 200) {
                     products.value = products.value.filter(p => p.id !== product.id);
                     messageNotif.value = "Product deleted successfully!";
@@ -174,6 +179,7 @@ const deleteProduct = async (product) => {
                     messageNotif.value = "Failed to delete product. Please try again later.";
                     showAlertNotification();
                 }
+
             } catch (error) {
                 console.error('Error deleting product:', error);
                 messageNotif.value = "Failed to delete product. Please try again later.";
@@ -201,30 +207,4 @@ const dismissAlert = () => {
 };
 </script>
 
-<style scoped>
-.product-title {
-    padding: 12px 0;
-}
-
-.search-bar {
-    margin: 10px 0;
-}
-
-table {
-    width: 100%;
-    margin-top: 5px;
-}
-
-.pagination {
-    margin-top: 10px;
-}
-
-.pagination .page-link {
-    cursor: pointer;
-}
-
-.spinner-border {
-    margin: 20px auto;
-    display: block;
-}
-</style>
+<style src="./style.css"></style>

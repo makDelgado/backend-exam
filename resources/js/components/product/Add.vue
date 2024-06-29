@@ -59,6 +59,7 @@ const newProduct = ref({
 });
 
 const emit = defineEmits(['close']);
+
 const closeAddModal = () => {
     emit('close');
     
@@ -71,9 +72,15 @@ const closeAddModal = () => {
 };
 
 const addProduct = async () => {
+
     try {
+
         // Basic validation before submission
-        if (!newProduct.value.name || !newProduct.value.category || !newProduct.value.description || !newProduct.value.datetime) {
+        if (
+            !newProduct.value.name ||
+            !newProduct.value.category ||
+            !newProduct.value.description
+        ) {
             console.error('Please fill in all fields.');
             return;
         }
@@ -82,7 +89,6 @@ const addProduct = async () => {
         formData.append('name', newProduct.value.name);
         formData.append('category', newProduct.value.category);
         formData.append('description', newProduct.value.description);
-        
   
         const config = {
             headers: {
@@ -92,6 +98,7 @@ const addProduct = async () => {
 
         const response = await axios.post(API_ADD_PRODUCT, formData, config);
         closeAddModal();
+        
         const addedProduct = response.data;
         window.dispatchEvent(new CustomEvent('product-added', { detail: addedProduct }));
         
@@ -101,18 +108,5 @@ const addProduct = async () => {
 };
 </script>
 
-<style scoped>
-.modal {
-    display: block;
-    background: rgba(0, 0, 0, 0.5);
-    align-items: center;
-    justify-content: center;
-    padding-top: 10vh;
-}
+<style src="./style.css"></style>
 
-.modal-dialog {
-    position: relative;
-    margin: auto;
-    transform: none;
-}
-</style>

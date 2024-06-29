@@ -20,7 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/products', [ProductController::class,'showProducts']);
-Route::post('/products/add', [ProductController::class,'addProduct']);
-Route::put('/products/edit/{id}', [ProductController::class,'updateProduct']);
-Route::get('/products/delete/{id}', [ProductController::class,'deleteProduct']);
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'showProducts']);
+    Route::post('/add', [ProductController::class, 'addProduct']);
+    Route::put('/edit/{id}', [ProductController::class, 'updateProduct']);
+    Route::get('/delete/{id}', [ProductController::class, 'deleteProduct']);
+});
