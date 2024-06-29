@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
    
-    public function index()
+    public function showProductPage()
     {
         return view("admin.product.product");
+    }
+
+    public function showvideoPage()
+    {
+        return view("admin.video.index");
     }
     public function showProducts()
     {

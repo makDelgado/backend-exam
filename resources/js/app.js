@@ -17,9 +17,12 @@ const app = createApp({});
 
 import SideBarComponent from './components/SideBarComponent.vue';
 import ProductComponent from './components/product/ProductComponent.vue';
+import VideosPage from './components/video/VideosPage.vue';
 
 app.component('side-bar-component', SideBarComponent);
 app.component('product-component', ProductComponent);
+app.component('videos-page', VideosPage);
+
 
 /**
  * The following block of code may be used to automatically register your

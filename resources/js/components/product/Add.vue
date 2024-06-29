@@ -9,7 +9,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form @submit.prevent="addProduct" ref="addProductForm">
+                    <form @submit.prevent="addProduct">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" v-model="newProduct.name" required>
@@ -43,7 +43,6 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { API_ADD_PRODUCT } from '../../config.js';
-import { defineProps, defineEmits } from 'vue';
 import DatetimePicker from 'vue3-datepicker';
 
 const props = defineProps({
@@ -53,15 +52,13 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['close']);
-
 const newProduct = ref({
     name: '',
     category: '',
     description: '',
-    datetime: null, // Initialize datetime field
 });
 
+const emit = defineEmits(['close']);
 const closeAddModal = () => {
     emit('close');
     
@@ -75,8 +72,9 @@ const closeAddModal = () => {
 
 const addProduct = async () => {
     try {
-        // Validate form before proceeding
-        if (!$refs.addProductForm.validate()) {
+        // Basic validation before submission
+        if (!newProduct.value.name || !newProduct.value.category || !newProduct.value.description || !newProduct.value.datetime) {
+            console.error('Please fill in all fields.');
             return;
         }
 
@@ -84,14 +82,8 @@ const addProduct = async () => {
         formData.append('name', newProduct.value.name);
         formData.append('category', newProduct.value.category);
         formData.append('description', newProduct.value.description);
-        formData.append('datetime', newProduct.value.datetime); // Include datetime field
         
-        // Append images to form data
-        const images = $refs.images.files;
-        for (let i = 0; i < images.length; i++) {
-            formData.append('images[]', images[i]);
-        }
-
+  
         const config = {
             headers: {
                 'Content-Type': 'multipart/form-data'

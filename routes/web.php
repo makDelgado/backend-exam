@@ -22,4 +22,5 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/admin/product', [ProductController::class, 'index'])->middleware('auth');
+Route::get('/admin/product', [ProductController::class, 'showProductPage'])->middleware('auth');
+Route::get('/admin/videos', [ProductController::class, 'showVideoPage'])->middleware('auth');

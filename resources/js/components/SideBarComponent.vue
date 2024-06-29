@@ -3,9 +3,9 @@
         <h2 class="sidebar-title">Menu</h2>
         <div class="sidebar-grid">
             <a href="/admin/product" class="sidebar-item">Products</a>
+            <a href="/admin/videos" class="sidebar-item">Videos</a>
             <a href="#" class="sidebar-item">Item 1</a>
             <a href="#" class="sidebar-item">Item 2</a>
-            <a href="#" class="sidebar-item">Item 3</a>
         </div>
     </div>
 </template>
