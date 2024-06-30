@@ -13,5 +13,11 @@
         "sass": "^1.56.1",
         "vite": "^4.0.0",
         "vue": "^3.2.37"
+    },
+    "dependencies": {
+        "sweetalert2": "^11.12.1",
+        "video.js": "^7.21.6",
+        "vue-video-player": "^6.0.0",
+        "vue3-datepicker": "^0.4.0"
     }
 }
